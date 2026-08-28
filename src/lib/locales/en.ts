@@ -1,0 +1,25 @@
+import type { ru } from './ru';
+
+export const en: Record<keyof typeof ru, string> = {
+  catalog: 'Catalog', newItems: 'New', about: 'About', cart: 'Cart', addToCart: 'Add to cart', search: 'Search', searchPlaceholder: 'Find jewelry',
+  heroEyebrow: 'Jewelry collection 2026', heroTitle: 'Jewelry made', heroSubtitle: 'to shine.', viewCollection: 'View collection',
+  newCollection: 'New collection', products: 'products', all: 'All',
+  loading: 'Loading page...', noResults: 'Nothing found.', previous: '← Previous', next: 'Next →', page: 'Page', of: 'of',
+  loadError: 'Could not load products. Refresh the page and try again.', favoriteLogin: 'Sign in to save favorites.',
+  footer: 'Shine. Made to shine.', backToShop: '← Back to shop', personalArea: 'Personal account', profile: 'Profile',
+  profileIntro: 'Manage your account, jewelry, and site appearance.', account: 'Account', myProducts: 'My products', settings: 'Settings',
+  signedInAs: 'Signed in as', signInHint: 'Sign in on the home page to save products and manage your profile.',
+  settingsIntro: 'Choose the site appearance and language. Settings are saved on this device.', siteTheme: 'Site theme',
+  light: 'Light', lightDescription: 'Airy white and turquoise colors', dark: 'Black', darkDescription: 'Black background and graphite panels',
+  language: 'Language', languageIntro: 'Choose the interface language.', openProfile: 'Open profile', register: 'Register',
+  darkTheme: 'dark', lightTheme: 'light', enableTheme: 'Enable',
+  filters: 'Filters', category: 'Category', priceFrom: 'Price from', priceTo: 'Price to', sort: 'Sort', reset: 'Reset',
+  sortDefault: 'By name', popular: 'Popular', priceAscending: 'Lowest price', priceDescending: 'Highest price', newestFirst: 'New arrivals',
+  highRating: 'Highest rated', bigDiscounts: 'Biggest discounts',
+  productDetails: 'Product information', description: 'Description', noDescription: 'No description has been added yet.', sku: 'SKU', productNotFound: 'Product not found.', backToCatalog: '← Back to catalog',
+  favorites: 'Favorites', recentlyViewed: 'Recently viewed', emptyFavorites: 'Your favorites are empty.', emptyViewed: 'You have not viewed any products yet.',
+  sellerCabinet: 'Seller dashboard', sellerIntro: 'Add jewelry and manage Kaspi imports.', backToProfile: '← Back to profile', profileCollectionsIntro: 'Save products you like and return to recently viewed items.',
+  sellerSettings: 'Store settings', sellerSettingsIntro: 'These details apply only to your seller dashboard.', shopName: 'Store name', shopDescription: 'Store description', contactEmail: 'Contact email', save: 'Save', settingsSaved: 'Settings saved.',
+  forSellers: 'For sellers', sellerSettingsLinkIntro: 'Manage products, Kaspi imports, and store settings.', openSellerCabinet: 'Open dashboard',
+  manufacturer: 'Manufacturer', allManufacturers: 'All manufacturers',
+};

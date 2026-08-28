@@ -1,0 +1,25 @@
+import type { ru } from './ru';
+
+export const kk: Record<keyof typeof ru, string> = {
+  catalog: 'Каталог', newItems: 'Жаңа өнімдер', about: 'Біз туралы', cart: 'Себет', addToCart: 'Себетке', search: 'Іздеу', searchPlaceholder: 'Әшекей бұйымды табу',
+  heroEyebrow: '2026 жылғы әшекейлер топтамасы', heroTitle: 'Жарқырау үшін', heroSubtitle: 'жасалған әшекейлер.', viewCollection: 'Топтаманы көру',
+  newCollection: 'Жаңа топтама', products: 'тауар', all: 'Барлығы',
+  loading: 'Бет жүктелуде...', noResults: 'Ештеңе табылмады.', previous: '← Артқа', next: 'Келесі →', page: 'Бет', of: '/',
+  loadError: 'Тауарларды жүктеу мүмкін болмады. Бетті жаңартып, қайталап көріңіз.', favoriteLogin: 'Таңдаулыларды сақтау үшін аккаунтқа кіріңіз.',
+  footer: 'Shine. Жарқырау үшін жасалған.', backToShop: '← Дүкенге', personalArea: 'Жеке кабинет', profile: 'Профиль',
+  profileIntro: 'Аккаунтты, әшекейлерді және сайт безендірілуін басқарыңыз.', account: 'Аккаунт', myProducts: 'Менің тауарларым', settings: 'Баптаулар',
+  signedInAs: 'Сіз кірдіңіз:', signInHint: 'Тауарларды сақтау және профильді басқару үшін басты беттен кіріңіз.',
+  settingsIntro: 'Сайттың көрінісі мен тілін таңдаңыз. Баптаулар осы құрылғыда сақталады.', siteTheme: 'Сайт тақырыбы',
+  light: 'Жарық', lightDescription: 'Жеңіл ақ және көгілдір түстер', dark: 'Қара', darkDescription: 'Қара фон және графит түсті панельдер',
+  language: 'Тіл', languageIntro: 'Интерфейс тілін таңдаңыз.', openProfile: 'Профильді ашу', register: 'Тіркелу',
+  darkTheme: 'қараңғы', lightTheme: 'жарық', enableTheme: 'Қосу:',
+  filters: 'Сүзгілер', category: 'Санат', priceFrom: 'Бағасы бастап', priceTo: 'Бағасы дейін', sort: 'Сұрыптау', reset: 'Тазарту',
+  sortDefault: 'Атауы бойынша', popular: 'Танымал', priceAscending: 'Алдымен арзаны', priceDescending: 'Алдымен қымбаты', newestFirst: 'Жаңа өнімдер',
+  highRating: 'Рейтингі жоғары', bigDiscounts: 'Үлкен жеңілдіктермен',
+  productDetails: 'Тауар туралы ақпарат', description: 'Сипаттама', noDescription: 'Сипаттама әлі қосылмаған.', sku: 'Артикул', productNotFound: 'Тауар табылмады.', backToCatalog: '← Каталогқа қайту',
+  favorites: 'Таңдаулылар', recentlyViewed: 'Жақында қаралғандар', emptyFavorites: 'Таңдаулылар әзірге бос.', emptyViewed: 'Сіз әлі бірде-бір тауарды қарамадыңыз.',
+  sellerCabinet: 'Сатушы кабинеті', sellerIntro: 'Әшекейлерді қосып, Kaspi импортын басқарыңыз.', backToProfile: '← Профильге', profileCollectionsIntro: 'Ұнаған тауарларды сақтап, жақында қаралғандарға оралыңыз.',
+  sellerSettings: 'Дүкен баптаулары', sellerSettingsIntro: 'Бұл деректер тек сатушы кабинетіне қатысты.', shopName: 'Дүкен атауы', shopDescription: 'Дүкен сипаттамасы', contactEmail: 'Байланыс поштасы', save: 'Сақтау', settingsSaved: 'Баптаулар сақталды.',
+  forSellers: 'Сатушыларға', sellerSettingsLinkIntro: 'Тауарларды, Kaspi импортын және дүкен баптауларын басқару.', openSellerCabinet: 'Кабинетті ашу',
+  manufacturer: 'Өндіруші', allManufacturers: 'Барлық өндірушілер',
+};
