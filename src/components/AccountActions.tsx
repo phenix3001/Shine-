@@ -1,39 +1,52 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAuth } from '../lib/auth';
 import { supabase } from '../lib/supabase';
+import { authErrorMessage } from '../lib/authErrors';
+import { useLanguage } from '../lib/i18n';
+import { getAccountCopy } from '../lib/accountCopy';
 
 export function AccountActions() {
   const { user } = useAuth();
+  const { language } = useLanguage();
+  const copy = getAccountCopy(language);
   const [, navigate] = useLocation();
   const [message, setMessage] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
+  const actionPending = useRef(false);
 
   if (!user) return null;
 
-  async function signOut() {
-    await supabase.auth.signOut();
-    navigate('/');
-  }
-
-  async function sendPasswordReset() {
-    if (!user?.email) return;
-    const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: `${window.location.origin}/profile` });
-    setMessage(error ? error.message : 'Ссылка для смены пароля отправлена на почту.');
-  }
-
-  async function deleteAccount() {
-    const { error } = await supabase.rpc('delete_own_account');
-    if (error) { setMessage('Не удалось удалить аккаунт.'); return; }
-    await supabase.auth.signOut();
-    navigate('/');
+  async function runAction(action: 'signout' | 'password' | 'delete') {
+    if (actionPending.current) return;
+    actionPending.current = true;
+    setIsBusy(true);
+    setMessage('');
+    try {
+      if (action === 'password') {
+        if (!user?.email) { setMessage(copy.noRecoveryEmail); return; }
+        const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: `${window.location.origin}/reset-password` });
+        if (error) throw error;
+        setMessage(copy.passwordEmailSent);
+        return;
+      }
+      if (action === 'delete') {
+        const { error } = await supabase.rpc('delete_own_account');
+        if (error) { setMessage(copy.deleteFailed); return; }
+      }
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      if (error) throw error;
+      navigate('/');
+    } catch (error) { setMessage(authErrorMessage(error, language)); }
+    finally { actionPending.current = false; setIsBusy(false); }
   }
 
   return <section className="account-actions">
-    <h3>Управление аккаунтом</h3>
+    <h3>{copy.manageAccount}</h3>
     <p>{user.email}</p>
-    <div><button onClick={() => void sendPasswordReset()}>Сменить пароль</button><button onClick={() => void signOut()}>Выйти</button></div>
-    {!isDeleting ? <button className="danger-button" onClick={() => setIsDeleting(true)}>Удалить аккаунт</button> : <div className="delete-confirmation"><p>Товары, избранное и заказы будут удалены навсегда.</p><button onClick={() => setIsDeleting(false)}>Отмена</button><button className="danger-button" onClick={() => void deleteAccount()}>Удалить навсегда</button></div>}
+    <div><button type="button" disabled={isBusy} onClick={() => void runAction('password')}>{copy.changePassword}</button><button type="button" disabled={isBusy} onClick={() => void runAction('signout')}>{copy.signOut}</button></div>
+    {!isDeleting ? <button type="button" className="danger-button" disabled={isBusy} onClick={() => setIsDeleting(true)}>{copy.deleteAccount}</button> : <div className="delete-confirmation"><p>{copy.deleteWarning}</p><button type="button" disabled={isBusy} onClick={() => setIsDeleting(false)}>{copy.cancel}</button><button type="button" className="danger-button" disabled={isBusy} onClick={() => void runAction('delete')}>{isBusy ? copy.deleting : copy.deletePermanently}</button></div>}
     {message && <p className="seller-message" role="status">{message}</p>}
   </section>;
 }

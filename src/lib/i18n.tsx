@@ -2,6 +2,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useSt
 import { en } from './locales/en';
 import { kk } from './locales/kk';
 import { ru } from './locales/ru';
+import { readPreference, savePreference } from './browserStorage';
 
 export type Language = 'kk' | 'ru' | 'en';
 type TranslationKey = keyof typeof ru;
@@ -17,7 +18,7 @@ type LanguageContextValue = {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 function getSavedLanguage(): Language {
-  const saved = localStorage.getItem('shine-language');
+  const saved = readPreference('shine-language');
   return saved === 'kk' || saved === 'en' ? saved : 'ru';
 }
 
@@ -25,7 +26,7 @@ export function LanguageProvider({ children }: PropsWithChildren) {
   const [language, setLanguage] = useState<Language>(getSavedLanguage);
 
   useEffect(() => {
-    localStorage.setItem('shine-language', language);
+    savePreference('shine-language', language);
     document.documentElement.lang = language;
   }, [language]);
 

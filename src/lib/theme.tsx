@@ -1,4 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { savePreference } from './browserStorage';
 
 export type Theme = 'light' | 'dark';
 
@@ -18,7 +19,8 @@ export function ThemeProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#181a1b' : '#f7f8fb');
+    savePreference('theme', theme);
   }, [theme]);
 
   const value = useMemo(() => ({ theme, setTheme }), [theme]);

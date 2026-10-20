@@ -1,0 +1,55 @@
+#root:has(.merchant-dashboard) { padding-left: 0; }
+.merchant-dashboard { min-height: 100vh; display: grid; grid-template-columns: 238px minmax(0, 1fr); background: var(--page); color: var(--ink); }
+.merchant-sidebar { position: sticky; top: 0; height: 100vh; padding: 26px 16px; border-right: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; }
+.merchant-sidebar .brand { margin-left: 12px; }
+.merchant-caption { margin: 14px 12px 40px; font-size: 9px; letter-spacing: 1.5px; color: var(--muted); }
+.merchant-sidebar nav > p { margin: 0 12px 12px; font-size: 10px; letter-spacing: 1px; color: var(--muted); }
+.merchant-sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 13px 12px; margin: 4px 0; font-size: 12px; border-radius: 7px; color: var(--muted); }
+.merchant-sidebar nav i { width: 18px; font-size: 19px; font-style: normal; text-align: center; color: var(--accent); }
+.merchant-sidebar nav a:hover, .merchant-sidebar nav a.selected { background: var(--accent-soft); color: var(--ink); }
+.merchant-sidebar nav a.selected { box-shadow: inset 3px 0 var(--accent); }
+.merchant-sidebar-footer { margin-top: auto; border-top: 1px solid var(--line); padding: 20px 12px 0; display: grid; gap: 16px; font-size: 12px; color: var(--muted); }
+.merchant-main { min-width: 0; padding: 0 36px 60px; }
+.merchant-topbar { height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: 13px; }
+.merchant-topbar b { margin: 0 14px; color: var(--muted); font-weight: 400; }
+.merchant-notice { margin-top: 24px; padding: 17px 20px; border: 1px solid var(--line); border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink); border-radius: 6px; font-size: 12px; line-height: 1.6; }
+.merchant-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 42px 0 28px; }
+.merchant-heading p { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 10px; }
+.merchant-heading h1 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -.8px; }
+.merchant-primary, .merchant-search button { padding: 12px 18px; border: 1px solid var(--action); border-radius: 6px; background: var(--action); color: #fff; font-size: 12px; white-space: nowrap; }
+.merchant-dashboard .seller-content { display: block; }
+html[data-theme] .merchant-dashboard :is(.seller-catalog, .seller-panel, .seller-store-settings) { border-radius: 8px; box-shadow: none; padding: 24px; }
+.merchant-dashboard .seller-panel { max-width: 800px; }
+.merchant-search { display: flex; width: min(100%, 960px); margin-bottom: 22px; }
+.merchant-search input { min-width: 0; flex: 1; border: 1px solid var(--line); border-radius: 6px 0 0 6px; padding: 12px 14px; background: var(--page); color: var(--ink); font-size: 13px; }
+.merchant-search button { border-radius: 0 6px 6px 0; }
+.merchant-dashboard .seller-catalog > .merchant-toolbar { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.merchant-toolbar label { display: flex; align-items: center; gap: 10px; }
+.merchant-toolbar select, .merchant-toolbar button { border: 1px solid var(--line); background: var(--page); color: var(--ink); padding: 9px 12px; border-radius: 5px; font-size: 12px; }
+.merchant-toolbar button { margin-left: auto; color: var(--accent); }
+.merchant-dashboard .seller-product { padding: 20px 0; border-radius: 0; border-bottom: 1px solid var(--line); gap: 20px; }
+.merchant-dashboard .seller-product h3 { font-size: 14px; line-height: 1.5; }
+.merchant-dashboard .seller-product img { object-fit: contain; background: #fff; border-radius: 6px; }
+.merchant-dashboard .seller-product div span { max-width: 700px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.merchant-dashboard .seller-product-status { margin-top: 10px; padding: 8px; border-radius: 5px; }
+.merchant-dashboard .seller-state { border: 1px solid var(--line); background: var(--surface); padding: 40px 24px; border-radius: 8px; }
+@media (max-width: 900px) {
+  .merchant-dashboard { grid-template-columns: 200px minmax(0, 1fr); }
+  .merchant-main { padding-inline: 20px; }
+  .merchant-heading { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .merchant-dashboard { display: block; }
+  .merchant-sidebar { position: static; height: auto; padding: 18px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .merchant-caption { margin: 8px 12px 18px; }
+  .merchant-sidebar nav { display: flex; flex-wrap: wrap; gap: 4px; }
+  .merchant-sidebar nav > p { display: none; }
+  .merchant-sidebar nav a { padding: 9px; font-size: 11px; }
+  .merchant-sidebar-footer { display: flex; gap: 24px; margin-top: 14px; padding-top: 14px; }
+  .merchant-main { padding-inline: 16px; }
+  .merchant-topbar { height: 66px; }
+  .merchant-heading { margin-top: 28px; }
+  html[data-theme] .merchant-dashboard :is(.seller-catalog, .seller-panel, .seller-store-settings) { padding: 16px; }
+  .merchant-dashboard .seller-product { gap: 10px; }
+  .merchant-toolbar button { margin-left: 0; }
+}

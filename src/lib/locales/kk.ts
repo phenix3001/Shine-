@@ -1,6 +1,10 @@
 import type { ru } from './ru';
 
 export const kk: Record<keyof typeof ru, string> = {
+  signIn: 'Кіру',
+  notifications: 'Хабарландырулар', noNotifications: 'Әзірге хабарландырулар жоқ', closeNotifications: 'Хабарландыруларды жабу',
+  retry: 'Қайталап көру',
+  catalogSavedResults: 'Каталог жаңартылмады. Бұрын жүктелген тауарлар көрсетілуде; бағасы мен қолжетімділігі өзгеруі мүмкін.',
   catalog: 'Каталог', newItems: 'Жаңа өнімдер', about: 'Біз туралы', cart: 'Себет', addToCart: 'Себетке', search: 'Іздеу', searchPlaceholder: 'Әшекей бұйымды табу',
   heroEyebrow: '2026 жылғы әшекейлер топтамасы', heroTitle: 'Жарқырау үшін', heroSubtitle: 'жасалған әшекейлер.', viewCollection: 'Топтаманы көру',
   newCollection: 'Жаңа топтама', products: 'тауар', all: 'Барлығы',
@@ -22,4 +26,19 @@ export const kk: Record<keyof typeof ru, string> = {
   sellerSettings: 'Дүкен баптаулары', sellerSettingsIntro: 'Бұл деректер тек сатушы кабинетіне қатысты.', shopName: 'Дүкен атауы', shopDescription: 'Дүкен сипаттамасы', contactEmail: 'Байланыс поштасы', save: 'Сақтау', settingsSaved: 'Баптаулар сақталды.',
   forSellers: 'Сатушыларға', sellerSettingsLinkIntro: 'Тауарларды, Kaspi импортын және дүкен баптауларын басқару.', openSellerCabinet: 'Кабинетті ашу',
   manufacturer: 'Өндіруші', allManufacturers: 'Барлық өндірушілер',
+  productUnavailable: 'Бұл тауар әзірге сатылымда жоқ',
+  invalidPriceRange: 'Баға аралығын кішісінен үлкеніне қарай дұрыс көрсетіңіз.',
+  photoSoon: 'Фотосурет жақында қосылады', photoLabel: 'Фото',
+  removeFavorite: 'Таңдаулылардан алып тастау', addFavorite: 'Таңдаулыларға қосу', catalogPages: 'Каталог беттері',
+  heroDescription: 'Күнделікті сәттерге ерекше бөлшектер. Өзіңе жарасатын әшекейді тап.',
+  heroNote: 'Өз стилің. Өз жарқылың.', skipToContent: 'Мазмұнға өту',
+  moreFilters: 'Барлық сипаттамалар',
+  productType: 'Бұйым түрі', price: 'Бағасы', showMore: 'Тағы көрсету', showLess: 'Жинау',
+  showProducts: 'Тауарларға өту',
+  showFilters: 'Сүзгілерді көрсету', hideFilters: 'Сүзгілерді жасыру', resetFilters: 'Сүзгілерді тазарту',
+  filterHint: 'Қажетті нұсқаларды белгілеңіз — тауарлар автоматты түрде жаңарады.', searchInFilter: 'Сүзгіден іздеу',
+  filtersLoading: 'Сүзгі нұсқалары жүктелуде…', filtersError: 'Сипаттамалар жүктелмеді. Қайталап көріңіз.',
+  shopNameRequired: 'Дүкен атауы кемінде 2 таңбадан тұруы керек.', settingsError: 'Баптаулар жүктелмеді немесе сақталмады. Қайталап көріңіз.',
+  itemQuantity: 'Тауар саны', decreaseQuantity: 'Санын азайту', increaseQuantity: 'Санын көбейту',
+  pageLoadError: 'Бетті ашу мүмкін болмады. Интернетті тексеріп, қайталап көріңіз.',
 };

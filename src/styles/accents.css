@@ -1,0 +1,28 @@
+/* Blue is reserved for actions; large surfaces stay near black. */
+html[data-theme] :is(.account-sign-in, .market-hero a) {
+  background: var(--action);
+  border-color: var(--action);
+  color: #fff;
+}
+html[data-theme] :is(.account-sign-in, .market-hero a, .seller-submit, .product-add-button):hover:not(:disabled) {
+  background: #1c4daa;
+  border-color: #1c4daa;
+}
+html[data-theme] :is(.auth-switch, .seller-intro p, .product-card:hover .product-info h2) { color: var(--accent); }
+html[data-theme] .profile-hero-avatar { background: var(--accent-soft); color: var(--accent); border-color: var(--line); }
+html[data-theme] .account-modal { background: var(--surface); border-color: var(--line); color: var(--ink); }
+html[data-theme] .account-form label { color: var(--muted); }
+html[data-theme] :is(.account-form input, .google-button) { background: var(--surface-soft); border-color: var(--line); color: var(--ink); }
+html[data-theme] .account-form input { outline-color: var(--accent); }
+html[data-theme="dark"] .market-hero { color: #f1f5fd; background: #101825; }
+html[data-theme="dark"] .market-hero h1 > span { color: #b8ccf7; }
+html[data-theme="dark"] .market-hero :is(.hero-eyebrow, .hero-description, .hero-note, .hero-signature) { color: #c3cee0; }
+html[data-theme="dark"] .market-hero::after {
+  filter: saturate(.5);
+  background-image: linear-gradient(90deg, #101825 5%, rgb(16 24 37 / 85%) 40%, rgb(16 24 37 / 10%)), url('../assets/hero-dark.png');
+}
+html[data-theme="dark"] .market-hero::before, html[data-theme="light"] .market-hero::after { background-image: none; }
+html[data-theme] .catalog-sort-select select { background: var(--surface); color: var(--ink); border-color: var(--line); }
+html[data-theme] .inline-quantity-control button:hover:not(:disabled) { background: var(--accent-soft); color: var(--accent); }
+html[data-theme] .home-section-menu a:first-child:hover { background: var(--accent-soft); color: var(--accent); }
+input[type="checkbox"], input[type="radio"], progress { accent-color: var(--action); }

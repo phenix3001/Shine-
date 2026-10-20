@@ -10,7 +10,8 @@ export function ThemeToggle() {
     className="theme-toggle"
     onClick={() => setTheme(nextTheme)}
     aria-label={`${t('enableTheme')} ${t(nextTheme === 'dark' ? 'darkTheme' : 'lightTheme')}`}
-    title="Сменить тему"
+    title={`${t('enableTheme')} ${t(nextTheme === 'dark' ? 'darkTheme' : 'lightTheme')}`}
+    aria-pressed={theme === 'dark'}
   >
     {theme === 'light' ? '☾' : '☀'}
   </button>;

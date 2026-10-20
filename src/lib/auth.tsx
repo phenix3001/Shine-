@@ -22,16 +22,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
     let isMounted = true;
-    void supabase.auth.getUser().then(({ data }) => {
-      if (isMounted) {
-        setUser(data.user);
-        setIsLoading(false);
-      }
-    });
+    let authRevision = 0;
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      authRevision += 1;
+      if (!isMounted) return;
       setUser(session?.user ?? null);
       setIsLoading(false);
     });
+    const initialRevision = authRevision;
+    void supabase.auth.getUser().then(({ data }) => {
+      if (isMounted && authRevision === initialRevision) {
+        setUser(data.user);
+        setIsLoading(false);
+      }
+    }).catch(() => { if (isMounted) setIsLoading(false); });
     return () => {
       isMounted = false;
       listener.subscription.unsubscribe();

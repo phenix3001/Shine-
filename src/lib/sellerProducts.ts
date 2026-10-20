@@ -1,5 +1,6 @@
 import { supabase } from './supabase';
 import { catalogJewelryCategories } from './jewelry';
+import type { SpecificationFilters } from './catalogSpecifications';
 
 export type SellerProduct = {
   id: string;
@@ -9,6 +10,9 @@ export type SellerProduct = {
   price: number;
   category: string;
   image_url: string | null;
+  image_urls?: string[];
+  specifications?: { group: string; name: string; values: string[] }[];
+  kaspi_id?: string | null;
   source_sku: string | null;
   views_count: number;
   rating: number;
@@ -23,38 +27,49 @@ export type CatalogSort = 'popular' | 'price-asc' | 'price-desc' | 'newest' | 'r
 
 export type CatalogFilters = {
   search: string;
-  category: string;
-  manufacturer: string;
+  categories: string[];
+  manufacturers: string[];
   minPrice: number | null;
   maxPrice: number | null;
   sort: CatalogSort;
+  specifications?: SpecificationFilters;
 };
 
-const productFields = 'id, name, brand, description, price, category, image_url, source_sku, views_count, rating, discount_percent, publication_status, created_at';
+const productFields = 'id, name, brand, description, price, category, image_url, image_urls, specifications, kaspi_id, source_sku, views_count, rating, discount_percent, publication_status, created_at';
 
-export async function loadSellerProducts(userId: string, offset: number, limit: number) {
-  const { data, error, count } = await supabase
+export async function loadSellerProducts(userId: string, offset: number, limit: number, search = '', status: ProductPublicationStatus | '' = '', signal?: AbortSignal) {
+  let request = supabase
     .from('seller_products')
     .select(productFields, { count: 'exact' })
     .eq('user_id', userId)
     .in('category', catalogJewelryCategories)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: false }).order('id')
     .range(offset, offset + limit - 1);
+  if (search) request = request.ilike('name', `%${search}%`);
+  if (status) request = request.eq('publication_status', status);
+  const deadline = AbortSignal.timeout(15_000);
+  const { data, error, count } = await request.abortSignal(signal ? AbortSignal.any([signal, deadline]) : deadline);
 
   if (error) throw error;
   return { products: data as SellerProduct[], total: count ?? 0 };
 }
 
-export async function loadCatalogProducts(filters: CatalogFilters, offset: number, limit: number) {
+export async function loadCatalogProducts(filters: CatalogFilters, offset: number, limit: number, signal?: AbortSignal) {
+  if (filters.sort === 'popular' || Object.values(filters.specifications ?? {}).some((values) => values.length > 0)) {
+    const { data, error } = await supabase.rpc('diverse_catalog', {
+      filters, page_offset: offset, page_limit: limit,
+    }).abortSignal(signal ?? AbortSignal.timeout(15_000));
+    if (error) throw error;
+    return data as { products: SellerProduct[]; total: number };
+  }
   let request = supabase
     .from('seller_products')
     .select(productFields, { count: 'exact' })
-    .in('category', catalogJewelryCategories)
+    .in('category', catalogJewelryCategories.filter((category) => !filters.categories.length || filters.categories.includes(category)))
     .eq('publication_status', 'published');
 
   if (filters.search.trim()) request = request.ilike('name', `%${filters.search.trim()}%`);
-  if (filters.category !== 'All') request = request.eq('category', filters.category);
-  if (filters.manufacturer !== 'All') request = request.eq('brand', filters.manufacturer);
+  if (filters.manufacturers.length) request = request.in('brand', filters.manufacturers);
   if (filters.minPrice !== null) request = request.gte('price', filters.minPrice);
   if (filters.maxPrice !== null) request = request.lte('price', filters.maxPrice);
 
@@ -65,23 +80,18 @@ export async function loadCatalogProducts(filters: CatalogFilters, offset: numbe
   else if (filters.sort === 'discount') request = request.order('discount_percent', { ascending: false }).order('views_count', { ascending: false });
   else request = request.order('views_count', { ascending: false }).order('name');
 
-  request = request.range(offset, offset + limit - 1);
+  request = request.order('id').range(offset, offset + limit - 1).abortSignal(signal ?? AbortSignal.timeout(15_000));
   const { data, error, count } = await request;
   if (error) throw error;
   return { products: data as SellerProduct[], total: count ?? 0 };
 }
 
-export async function loadCatalogBrands() {
-  const { data, error } = await supabase.rpc('get_seller_product_brands');
-  if (error) throw error;
-  return (data as Array<{ brand: string }>).map((row) => row.brand);
-}
-
-export async function loadProductById(id: string) {
+export async function loadProductById(id: string, signal?: AbortSignal) {
+  if (!/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(id)) return null;
   const { data, error } = await supabase
     .from('seller_products')
     .select(productFields)
-    .eq('id', id)
+    .eq('id', id).abortSignal(signal ?? AbortSignal.timeout(15_000))
     .maybeSingle();
 
   if (error) throw error;
@@ -102,23 +112,6 @@ export async function createSellerProduct(product: NewSellerProduct) {
 
   if (error) throw error;
   return data as SellerProduct;
-}
-
-export async function importSellerProducts(
-  userId: string,
-  products: NewSellerProduct[],
-  onProgress: (processed: number) => void,
-) {
-  const batchSize = 200;
-  const uniqueProducts = [...new Map(products.map((product) => [product.source_sku, product])).values()];
-  for (let start = 0; start < uniqueProducts.length; start += batchSize) {
-    const batch = uniqueProducts.slice(start, start + batchSize).map((product) => ({ ...product, user_id: userId }));
-    const { error } = await supabase
-      .from('seller_products')
-      .upsert(batch, { onConflict: 'user_id,source_sku' });
-    if (error) throw error;
-    onProgress(Math.min(start + batch.length, uniqueProducts.length));
-  }
 }
 
 export async function deleteSellerProduct(id: string) {

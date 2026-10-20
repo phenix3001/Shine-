@@ -26,7 +26,7 @@ export function AboutSection() {
   return (
     <section className="about-section" id="about">
       <p>{text.eyebrow}</p>
-      <h2>{text.title}</h2>
+      <h1>{text.title}</h1>
       <span>{text.description}</span>
     </section>
   );

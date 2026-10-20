@@ -1,6 +1,10 @@
 import type { ru } from './ru';
 
 export const en: Record<keyof typeof ru, string> = {
+  signIn: 'Sign in',
+  notifications: 'Notifications', noNotifications: 'No notifications yet', closeNotifications: 'Close notifications',
+  retry: 'Try again',
+  catalogSavedResults: 'Could not refresh the catalog. Previously loaded products are shown; prices and availability may have changed.',
   catalog: 'Catalog', newItems: 'New', about: 'About', cart: 'Cart', addToCart: 'Add to cart', search: 'Search', searchPlaceholder: 'Find jewelry',
   heroEyebrow: 'Jewelry collection 2026', heroTitle: 'Jewelry made', heroSubtitle: 'to shine.', viewCollection: 'View collection',
   newCollection: 'New collection', products: 'products', all: 'All',
@@ -22,4 +26,19 @@ export const en: Record<keyof typeof ru, string> = {
   sellerSettings: 'Store settings', sellerSettingsIntro: 'These details apply only to your seller dashboard.', shopName: 'Store name', shopDescription: 'Store description', contactEmail: 'Contact email', save: 'Save', settingsSaved: 'Settings saved.',
   forSellers: 'For sellers', sellerSettingsLinkIntro: 'Manage products, Kaspi imports, and store settings.', openSellerCabinet: 'Open dashboard',
   manufacturer: 'Manufacturer', allManufacturers: 'All manufacturers',
+  productUnavailable: 'This product is currently unavailable',
+  invalidPriceRange: 'Enter a valid price range, from low to high.',
+  photoSoon: 'Photo coming soon', photoLabel: 'Photo',
+  removeFavorite: 'Remove from favorites', addFavorite: 'Add to favorites', catalogPages: 'Catalog pages',
+  heroDescription: 'Special details for everyday moments. Find the jewelry that feels like you.',
+  heroNote: 'Your style. Your shine.', skipToContent: 'Skip to content',
+  moreFilters: 'More filters',
+  productType: 'Product type', price: 'Price', showMore: 'Show more', showLess: 'Show less',
+  showProducts: 'View products',
+  showFilters: 'Show filters', hideFilters: 'Hide filters', resetFilters: 'Reset filters',
+  filterHint: 'Select the options you need. Products update automatically.', searchInFilter: 'Search filter options',
+  filtersLoading: 'Loading filter options…', filtersError: 'Could not load product characteristics. Please try again.',
+  shopNameRequired: 'The store name must contain at least 2 characters.', settingsError: 'Could not load or save settings. Please try again.',
+  itemQuantity: 'Item quantity', decreaseQuantity: 'Decrease quantity', increaseQuantity: 'Increase quantity',
+  pageLoadError: 'Could not open this page. Check your connection and try again.',
 };

@@ -6,6 +6,7 @@ dist-ssr
 .env.local
 .DS_Store
 *.log
+kaspi-staging/
 .vercel
 supabase/.temp
 supabase/.branches

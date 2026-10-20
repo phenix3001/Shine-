@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
     "composite": true,
+    "outDir": "node_modules/.cache/shine-tools",
+    "tsBuildInfoFile": "node_modules/.cache/shine-tools/build.tsbuildinfo",
+    "target": "ES2022",
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "scripts/kaspi/devProgress.ts", "scripts/kaspi/types.ts", "scripts/kaspi/merchant.ts"]
 }
