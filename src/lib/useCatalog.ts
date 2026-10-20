@@ -3,21 +3,20 @@ import { loadCatalogProducts } from './sellerProducts';
 import type { CatalogFilters } from './sellerProducts';
 import { adjacentCatalogPages, CatalogPageCache } from './catalogPageCache';
 import { preloadProductImages } from './preloadProductImages';
+import { getDiscoverySeed } from './discoveryIdentity';
+import { toCatalogProduct } from './catalogPresentation';
 
 type RequestState = { key: string; loading: boolean; error: boolean };
 
 export function useCatalog(filters: CatalogFilters, page: number, pageSize: number, userId?: string, enabled = true) {
   // Filters and accounts each get an isolated, short-lived cache in memory.
-  const contextKey = JSON.stringify({ filters, pageSize, userId });
+  const contextKey = JSON.stringify({ filters: { ...filters, seed: filters.seed ?? getDiscoverySeed() }, pageSize, userId });
   const key = JSON.stringify([contextKey, page]);
   const cache = useMemo(() => {
     const context = JSON.parse(contextKey) as { filters: CatalogFilters; pageSize: number };
     return new CatalogPageCache(async (targetPage, signal) => {
       const result = await loadCatalogProducts(context.filters, targetPage * context.pageSize, context.pageSize, signal);
-      return { total: result.total, products: result.products.map((product) => ({
-        id: product.id, name: product.name, brand: product.brand, price: product.price,
-        category: product.category, image: product.image_url, publicationStatus: product.publication_status,
-      })) };
+      return { total: result.total, products: result.products.map(toCatalogProduct) };
     });
   }, [contextKey]);
   const [reload, setReload] = useState(0);

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'wouter';
-import { BrandLogo } from '../components/BrandLogo';
+import { PageBackLink } from '../components/PageBackLink';
 import { ProfileProductCollection } from '../components/ProfileProductCollection';
 import { ProfileSettings } from '../components/ProfileSettings';
-import { getUserAvatarUrl, useAuth } from '../lib/auth';
+import { useAuth } from '../lib/auth';
+import { UserAvatar } from '../components/UserAvatar';
 import { useLanguage } from '../lib/i18n';
 
 type ProfileTab = 'favorites' | 'viewed' | 'settings';
@@ -11,7 +11,6 @@ type ProfileTab = 'favorites' | 'viewed' | 'settings';
 export function ProfilePage() {
   const { user } = useAuth();
   const { t } = useLanguage();
-  const avatarUrl = getUserAvatarUrl(user);
   const [activeTab, setActiveTab] = useState<ProfileTab>('favorites');
   const tabs: { value: ProfileTab; label: string }[] = [
     { value: 'favorites', label: t('favorites') },
@@ -20,10 +19,10 @@ export function ProfilePage() {
   ];
 
   return <main className="seller-page">
-    <header className="seller-header"><BrandLogo /><Link href="/">{t('backToShop')}</Link></header>
+    <PageBackLink />
     <section className="profile-hero">
       <div className="profile-hero-avatar">
-        {avatarUrl ? <img src={avatarUrl} alt="" referrerPolicy="no-referrer" /> : user?.email?.charAt(0).toUpperCase() ?? 'S'}
+        <UserAvatar user={user} />
       </div>
       <div><h1>{t('profile')}</h1><span>{user?.email ?? t('profileCollectionsIntro')}</span></div>
       <i aria-hidden="true">◇</i>

@@ -4,14 +4,11 @@ import { useLanguage } from '../lib/i18n';
 import { loadFavoriteProductIds, loadFavoriteProducts, loadViewedProducts, setFavorite } from '../lib/profileProducts';
 import type { SellerProduct } from '../lib/sellerProducts';
 import { Product, ProductCard } from './ProductCard';
+import { toCatalogProduct } from '../lib/catalogPresentation';
 
 type CollectionMode = 'favorites' | 'viewed';
 type ProfileProductCollectionProps = { mode: CollectionMode };
 const pageSize = 12;
-
-function toProduct(product: SellerProduct): Product {
-  return { id: product.id, name: product.name, brand: product.brand, price: product.price, category: product.category, image: product.image_url, publicationStatus: product.publication_status };
-}
 
 export function ProfileProductCollection({ mode }: ProfileProductCollectionProps) {
   const { user, isLoading: isAuthLoading } = useAuth();
@@ -69,7 +66,7 @@ export function ProfileProductCollection({ mode }: ProfileProductCollectionProps
   const totalPages = Math.ceil(total / pageSize);
   return <section className="profile-collection">
     {favoriteMessage && <p className="seller-message" role="status">{favoriteMessage}</p>}
-    <div className="product-grid">{products.map((product) => <ProductCard key={product.id} product={toProduct(product)} isFavorite={favoriteIds.includes(product.id)} onToggleFavorite={(id) => void toggleFavorite(id)} />)}</div>
+    <div className="product-grid">{products.map((product) => <ProductCard key={product.id} product={toCatalogProduct(product)} isFavorite={favoriteIds.includes(product.id)} onToggleFavorite={(id) => void toggleFavorite(id)} />)}</div>
     {totalPages > 1 && <nav className="catalog-pagination"><button disabled={page === 0} onClick={() => setPage((value) => value - 1)}>{t('previous')}</button><span>{t('page')} {page + 1} {t('of')} {totalPages}</span><button disabled={page + 1 >= totalPages} onClick={() => setPage((value) => value + 1)}>{t('next')}</button></nav>}
   </section>;
 }

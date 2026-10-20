@@ -21,7 +21,7 @@ export function SellerProductForm({ isSaving, onSubmit }: SellerProductFormProps
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [publicationStatus, setPublicationStatus] = useState<ProductPublicationStatus>('draft');
-  const [features, setFeatures] = useState<Record<string, string>>({});
+  const [features, setFeatures] = useState<Record<string, string>>({ Материал: 'серебро' });
   const [photos, setPhotos] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -65,7 +65,7 @@ export function SellerProductForm({ isSaving, onSubmit }: SellerProductFormProps
     setImageUrl('');
     setPublicationStatus('draft');
     setCategory(jewelryCategories[0]);
-    setFeatures({}); setPhotos([]);
+    setFeatures({ Материал: 'серебро' }); setPhotos([]);
     } catch (failure) {
       setError(typeof failure === 'object' && failure && 'message' in failure ? String(failure.message) : 'Не удалось сохранить товар. Попробуйте ещё раз.');
     } finally { setUploading(false); }
@@ -79,7 +79,7 @@ export function SellerProductForm({ isSaving, onSubmit }: SellerProductFormProps
     </div>
 
     {step === 1 ? <>
-      <p className="seller-step-help">Добавьте основные данные, как при создании товара в Kaspi.</p>
+      <p className="seller-step-help">В Shine продаются только серебряные украшения. Добавьте основные данные товара.</p>
       <label>Артикул продавца<input value={sku} onChange={(event) => setSku(event.target.value)} maxLength={50} placeholder="Например, SHINE-001" required /></label>
       <label>Название товара<input value={name} onChange={(event) => setName(event.target.value)} minLength={2} maxLength={100} required /></label>
       <label>Категория украшения<select value={category} onChange={(event) => setCategory(event.target.value)}>{jewelryCategories.map((item) => <option key={item}>{item}</option>)}</select></label>

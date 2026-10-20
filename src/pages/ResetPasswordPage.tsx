@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link } from 'wouter';
-import { BrandLogo } from '../components/BrandLogo';
+import { PageBackLink } from '../components/PageBackLink';
 import { useAuth } from '../lib/auth';
 import { supabase } from '../lib/supabase';
 import { authErrorMessage } from '../lib/authErrors';
@@ -10,7 +10,7 @@ import { getAccountCopy } from '../lib/accountCopy';
 
 export function ResetPasswordPage() {
   const { user, isLoading } = useAuth();
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const copy = getAccountCopy(language);
   const [password, setPassword] = useState('');
   const [confirmation, setConfirmation] = useState('');
@@ -29,7 +29,7 @@ export function ResetPasswordPage() {
     finally { setSaving(false); }
   }
   return <main className="seller-page">
-    <header className="seller-header"><BrandLogo /><Link href="/">{t('backToShop')}</Link></header>
+    <PageBackLink />
     <section className="profile-hero"><div><h1>{copy.newPassword}</h1><span>{copy.recoveryTitle}</span></div></section>
     <section className="profile-settings">
       {isLoading ? <p>{copy.checkingLink}</p> : !user ? <p>{copy.expiredLink}</p>

@@ -29,7 +29,8 @@ export async function createOrder(items: CartItem[], customerName: string, phone
     throw new OrderValidationError(copy.orderInvalidDetails);
   }
   const { data: products, error: productError } = await supabase.from('seller_products')
-    .select('id, price, publication_status').in('id', cartItems.map((item) => item.product_id)).abortSignal(AbortSignal.timeout(15_000));
+    .select('id, price, publication_status').eq('is_silver', true)
+    .in('id', cartItems.map((item) => item.product_id)).abortSignal(AbortSignal.timeout(15_000));
   if (productError) throw productError;
   if (cartItems.some((item) => !products.some((product) => product.id === item.product_id && product.publication_status === 'published'))) {
     throw new OrderValidationError(copy.orderProductUnavailable);

@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
-import { HomeSectionMenu } from './components/HomeSectionMenu';
+import { StorefrontLayout } from './components/StorefrontLayout';
 import { PageLoading } from './components/PageLoading';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 import { MarketplacePage } from './pages/MarketplacePage';
@@ -20,9 +20,7 @@ export default function App() {
   const { t } = useLanguage();
   const [location] = useLocation();
   return (
-    <>
-      <button className="skip-link" onClick={() => document.querySelector<HTMLElement>('main')?.focus()}>{t('skipToContent')}</button>
-      <HomeSectionMenu />
+    <StorefrontLayout>
       <RouteErrorBoundary key={location} message={t('pageLoadError')} retryLabel={t('retry')}>
         <Suspense fallback={<PageLoading />}>
           <RouteEffects />
@@ -41,6 +39,6 @@ export default function App() {
           </Switch>
         </Suspense>
       </RouteErrorBoundary>
-    </>
+    </StorefrontLayout>
   );
 }

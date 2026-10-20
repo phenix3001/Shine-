@@ -1,7 +1,5 @@
-import { Link } from 'wouter';
 import { AboutSection } from '../components/AboutSection';
-import { BrandLogo } from '../components/BrandLogo';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { PageBackLink } from '../components/PageBackLink';
 import { useLanguage } from '../lib/i18n';
 
 export function AboutPage() {
@@ -9,10 +7,7 @@ export function AboutPage() {
 
   return (
     <main className="about-page">
-      <header className="about-page-header">
-        <BrandLogo />
-        <div><ThemeToggle /><Link href="/">{t('backToShop')}</Link></div>
-      </header>
+      <PageBackLink />
       <AboutSection />
       <footer className="market-footer"><span>{t('footer')}</span><span>Almaty, Kazakhstan</span></footer>
     </main>

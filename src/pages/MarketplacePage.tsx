@@ -3,7 +3,6 @@ import { CatalogFilters } from '../components/CatalogFilters';
 import { CatalogSkeleton } from '../components/CatalogSkeleton';
 import { CollectionHero } from '../components/CollectionHero';
 import { CatalogSortBar } from '../components/CatalogSortBar';
-import { MarketplaceHeader } from '../components/MarketplaceHeader';
 import { Product, ProductCard } from '../components/ProductCard';
 import { useAuth } from '../lib/auth';
 import { useLanguage } from '../lib/i18n';
@@ -13,11 +12,12 @@ import type { SpecificationFilters } from '../lib/catalogSpecifications';
 import { useCatalogFavorites } from '../lib/useCatalogFavorites';
 import { parseProductPrice } from '../lib/productValidation';
 import { useCatalogFacets } from '../lib/useCatalogFacets';
+import { useCatalogSearch } from '../lib/useCatalogSearch';
 
 const pageSize = 24;
 export function MarketplacePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [query, setQuery] = useState('');
+  const { query, setQuery } = useCatalogSearch();
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [manufacturers, setManufacturers] = useState<string[]>([]);
@@ -38,6 +38,8 @@ export function MarketplacePage() {
     setPage(0);
   }, [user?.id]);
 
+  useEffect(() => { setPage(0); }, [query]);
+
   const fromPrice = parseProductPrice(minPrice);
   const toPrice = parseProductPrice(maxPrice);
   const invalidPrices = (minPrice !== '' && fromPrice === null) || (maxPrice !== '' && toPrice === null)
@@ -53,11 +55,6 @@ export function MarketplacePage() {
   useEffect(() => {
     if (!isCatalogLoading && !catalogError && databaseProducts && page >= totalPages) setPage(totalPages - 1);
   }, [databaseProducts, isCatalogLoading, catalogError, page, totalPages]);
-
-  function handleQueryChange(nextQuery: string) {
-    setQuery(nextQuery);
-    setPage(0);
-  }
 
   function resetFilters() {
     setSpecifications({});
@@ -78,7 +75,6 @@ export function MarketplacePage() {
   }
 
   return <main className="market-page">
-    <MarketplaceHeader query={query} onQueryChange={handleQueryChange} />
     <div className="market-layout">
       <div className="market-content">
       <CollectionHero />

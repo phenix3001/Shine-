@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
-import { getUserAvatarUrl, useAuth } from '../lib/auth';
+import { useAuth } from '../lib/auth';
 import { getGoogleAuthStatus, supabase } from '../lib/supabase';
 import { useLanguage } from '../lib/i18n';
 
@@ -8,6 +8,7 @@ import { AuthForm } from './AuthForm';
 import type { AuthMode } from './AuthForm';
 import { authErrorMessage } from '../lib/authErrors';
 import { getAccountCopy } from '../lib/accountCopy';
+import { UserAvatar } from './UserAvatar';
 
 type AccountMenuProps = { compact?: boolean };
 
@@ -97,11 +98,9 @@ export function AccountMenu({ compact = false }: AccountMenuProps) {
     setMessage('');
   }
 
-  const avatarUrl = getUserAvatarUrl(user);
-
   return <div className={`account-menu${compact ? ' sidebar-account-menu' : ''}`} data-label={compact ? t(user ? 'profile' : 'signIn') : undefined}>
     {user ? <Link href="/profile" className="account-button account-avatar" aria-label={t('openProfile')}>
-      {avatarUrl ? <img src={avatarUrl} alt="" referrerPolicy="no-referrer" /> : user.email?.charAt(0).toUpperCase() || t('profile').charAt(0).toUpperCase()}
+      <UserAvatar user={user} />
     </Link> : <button className={compact ? 'sidebar-login-button' : 'register-button'} disabled={isAuthLoading} aria-label={compact ? t('signIn') : undefined} aria-haspopup="dialog" onClick={openSignIn}>{compact ? <i className="sidebar-user-icon" aria-hidden="true" /> : t('signIn')}</button>}
 
     {isOpen && !user && <div className="account-modal-backdrop" onMouseDown={() => setIsOpen(false)}>

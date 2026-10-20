@@ -18,6 +18,8 @@ export function SellerProductList({ products, onDelete, onStatusChange, pendingI
         <p>{product.brand || product.category}</p>
         <h3>{product.name}</h3>
         <strong>{product.price.toLocaleString('ru-RU')} ₸</strong>
+        <span title="Повторные открытия одним посетителем за сутки не увеличивают счётчик.">Просмотры: {product.views_count.toLocaleString('ru-RU')}</span>
+        {product.is_silver === false && <span>Не показан в магазине: Shine продаёт только серебро.</span>}
         {product.source_sku && <span>Артикул: {product.source_sku}</span>}
         {product.description && <span>{product.description}</span>}
         <select disabled={pendingIds.includes(product.id)} className="seller-product-status" value={product.publication_status} onChange={(event) => onStatusChange(product.id, event.target.value as ProductPublicationStatus)} aria-label={`Статус ${product.name}`}>

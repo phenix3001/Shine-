@@ -86,7 +86,13 @@ test('public catalog filters, ordering and pagination', async (t) => {
     });
     assert.equal(response.status, 200);
     const facets = await response.json();
-    assert.equal(facets.categories.reduce((total, option) => total + option.count, 0), baseline.total);
+    // One model may appear in multiple categories, so their counts are not additive.
+    assert.ok(facets.categories.some((option) => option.value === fixture.category));
+    await Promise.all(facets.categories.map(async (option) => {
+      assert.ok(option.value.trim() && option.count > 0);
+      const filtered = await catalog({ categories: [option.value] }, 0, 1);
+      assert.equal(filtered.total, option.count, option.value);
+    }));
     assert.ok(facets.manufacturers.every((option) => option.value.trim() && option.count > 0));
     assert.ok(Object.entries(facets.specifications).every(([name, options]) => allowed.includes(name)
       && options.every((option) => option.value.trim() && option.count > 0)));

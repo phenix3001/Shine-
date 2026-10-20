@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useRoute } from 'wouter';
-import { BrandLogo } from '../components/BrandLogo';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { useRoute } from 'wouter';
+import { PageBackLink } from '../components/PageBackLink';
 import { getJewelryCategoryLabel } from '../lib/jewelry';
 import { useAuth } from '../lib/auth';
 import { useLanguage } from '../lib/i18n';
-import { recordProductView } from '../lib/profileProducts';
-import { incrementProductView, loadProductById, SellerProduct } from '../lib/sellerProducts';
+import { loadProductById, SellerProduct } from '../lib/sellerProducts';
+import { useProductView } from '../lib/useProductView';
 import { useCart } from '../lib/cart';
 import { InlineQuantityControl } from '../components/InlineQuantityControl';
 import { ProductGallery } from '../components/ProductGallery';
@@ -21,6 +20,7 @@ export function ProductPage() {
   const { user } = useAuth();
   const { addItem, items, removeItem, setQuantity } = useCart();
   const cartItem = product ? items.find((item) => item.id === product.id) : undefined;
+  useProductView(product);
 
   useEffect(() => {
     if (!params?.id) return;
@@ -34,30 +34,14 @@ export function ProductPage() {
       .then((result) => {
         if (isCancelled) return;
         setProduct(result);
-        if (result?.publication_status === 'published') {
-          const viewKey = `shine-viewed-${result.id}`;
-          try {
-            if (sessionStorage.getItem(viewKey)) return;
-            sessionStorage.setItem(viewKey, '1');
-          } catch { /* Product details still work when browser storage is blocked. */ }
-          void incrementProductView(result.id).catch(() => undefined);
-        }
       })
       .catch(() => { if (!isCancelled) setHasError(true); })
       .finally(() => { window.clearTimeout(deadline); if (!isCancelled) setIsLoading(false); });
     return () => { isCancelled = true; controller.abort(); window.clearTimeout(deadline); };
   }, [params?.id, user?.id, reload]);
 
-  useEffect(() => {
-    if (product && user) void recordProductView(user.id, product.id).catch(() => undefined);
-  }, [product, user?.id]);
-
   return <main className="product-page">
-    <header className="seller-header">
-      <BrandLogo />
-      <div className="product-page-actions"><ThemeToggle /></div>
-    </header>
-    <Link href="/#catalog" className="product-back">{t('backToCatalog')}</Link>
+    <PageBackLink catalog />
     {isLoading ? <p className="product-page-state" role="status">{t('loading')}</p> : hasError || !product ? <section className="product-page-state" role="status"><h1>{t(hasError ? 'loadError' : 'productNotFound')}</h1>{hasError && <button className="add-button" onClick={() => setReload((current) => current + 1)}>{t('retry')}</button>}</section> :
       <article className="product-details">
         <ProductGallery key={product.id} name={product.name} images={product.image_urls?.length ? product.image_urls : product.image_url ? [product.image_url] : []} />

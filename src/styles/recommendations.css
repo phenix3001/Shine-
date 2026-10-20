@@ -1,0 +1,7 @@
+.cart-recommendations { margin-block: 48px 56px; padding-top: 32px; border-top: 1px solid var(--line); }
+.recommendations-heading { margin-bottom: 24px; }
+.recommendations-heading h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 500; letter-spacing: -.7px; }
+.recommendations-heading p { max-width: 620px; margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.recommendations-state { padding: 32px 20px; border: 1px dashed var(--line); border-radius: 18px; background: var(--surface); color: var(--muted); font-size: 14px; text-align: center; }
+.recommendations-state button { margin-top: 16px; }
+@media (max-width: 600px) { .cart-recommendations { margin-top: 32px; padding-top: 24px; } }

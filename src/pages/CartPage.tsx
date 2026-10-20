@@ -1,13 +1,13 @@
 import { FormEvent, useRef, useState } from 'react';
 import { Link } from 'wouter';
-import { BrandLogo } from '../components/BrandLogo';
 import { CartItemRow } from '../components/CartItemRow';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { PageBackLink } from '../components/PageBackLink';
 import { useAuth } from '../lib/auth';
 import { useCart } from '../lib/cart';
 import { useLanguage } from '../lib/i18n';
 import { createOrder, OrderValidationError } from '../lib/orders';
 import { getAccountCopy } from '../lib/accountCopy';
+import { CartRecommendations } from '../components/CartRecommendations';
 
 export function CartPage() {
   const { items, total, setQuantity, removeItem, clearCart } = useCart();
@@ -37,7 +37,7 @@ export function CartPage() {
   }
 
   return <main className="cart-page">
-    <header className="seller-header"><BrandLogo /><div className="product-page-actions"><ThemeToggle /><Link href="/#catalog">{t('backToCatalog')}</Link></div></header>
+    <PageBackLink catalog />
     <section className="cart-heading"><p>{copy.yourChoice}</p><h1>{t('cart')}</h1></section>
     {items.length === 0 ? <section className="cart-empty"><p role="status">{message || copy.cartEmpty}</p><Link href="/#catalog">{copy.browseCatalog}</Link></section> : <div className="cart-layout">
       <section className="cart-list" aria-label={copy.cartItems}>{items.map((item) => <CartItemRow key={item.id} item={item} locale={locale} disabled={isSaving} onQuantityChange={(quantity) => setQuantity(item.id, quantity)} onRemove={() => removeItem(item.id)} />)}</section>
@@ -52,5 +52,6 @@ export function CartPage() {
         {message && <p className="seller-message" role="status">{message}</p>}
       </form>
     </div>}
+    <CartRecommendations />
   </main>;
 }

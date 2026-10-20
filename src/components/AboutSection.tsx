@@ -4,18 +4,18 @@ import { useLanguage } from '../lib/i18n';
 const copy: Record<Language, { eyebrow: string; title: string; description: string }> = {
   ru: {
     eyebrow: 'Наша философия',
-    title: 'Украшения для твоего света.',
-    description: 'Shine собирает в одном месте выразительные украшения от локальных брендов. Мы верим, что каждая деталь должна помогать тебе звучать ярче.',
+    title: 'Серебро для твоего света.',
+    description: 'Shine — магазин серебряных украшений. Кольца, серьги, цепочки и браслеты для повседневных образов и особенных моментов. Найди деталь, в которой узнаешь себя.',
   },
   kk: {
     eyebrow: 'Біздің философиямыз',
-    title: 'Өз сәулеңе арналған әшекейлер.',
-    description: 'Shine жергілікті брендтердің мәнерлі әшекейлерін бір жерге жинайды. Әрбір бөлшек сенің жарқын болуыңа көмектесуі керек.',
+    title: 'Өз сәулеңе арналған күміс.',
+    description: 'Shine — күміс әшекейлер дүкені. Күнделікті бейнелер мен ерекше сәттерге арналған сақиналар, сырғалар, алқалар және білезіктер. Өзіңе жарасатын әшекейді тап.',
   },
   en: {
     eyebrow: 'Our philosophy',
-    title: 'Jewelry for your own light.',
-    description: 'Shine brings expressive jewelry from local brands into one place. We believe every detail should help you show your brightest self.',
+    title: 'Silver for your own light.',
+    description: 'Shine is a silver jewelry store. Discover rings, earrings, chains and bracelets for everyday looks and special moments. Find the detail that feels like you.',
   },
 };
 

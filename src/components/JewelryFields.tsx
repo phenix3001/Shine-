@@ -8,6 +8,7 @@ export function JewelryFields({ values, onChange }: {
   return <fieldset className="jewelry-fields"><legend>Характеристики украшения</legend>
     {jewelryFields.map((name) => <label key={name}>{name}
       <input value={values[name] ?? ''} maxLength={200}
+        readOnly={name === 'Материал'}
         placeholder={name === 'Вес изделия' ? 'Например, 3,5 г' : undefined}
         onChange={(event) => onChange(name, event.target.value)} />
     </label>)}

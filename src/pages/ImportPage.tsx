@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'wouter';
-import { BrandLogo } from '../components/BrandLogo';
+import { PageBackLink } from '../components/PageBackLink';
 import { useAuth } from '../lib/auth';
 import { readLocal, replaceKaspiCatalog } from '../lib/kaspiReplacement';
 import type { ImportStatus, UploadProgress } from '../lib/kaspiReplacement';
@@ -48,7 +47,7 @@ export function ImportPage() {
       && !upload?.done && !error && !connectionError) void start();
   }, [automatic, status?.ready, user, running, upload?.done, error, connectionError, start]);
   return <main className="seller-page">
-    <header className="seller-header"><BrandLogo /><Link href="/">← В магазин</Link></header>
+    <PageBackLink />
     <section className="profile-hero"><div><h1>Перенос из Kaspi</h1><span>Shinе · IPKOJEVYATOVA</span></div></section>
     {!import.meta.env.DEV ? <p>Страница переноса работает локально: откройте сайт через npm run dev.</p> : <section className="profile-settings import-status">
       <h2>{upload?.done ? 'Перенос завершён' : running ? 'Загрузка на сайт' : status && status.prepared === status.found && !status.complete ? 'Файлы готовы — сверяем ассортимент' : 'Подготовка каталога'}</h2>
